@@ -32,12 +32,7 @@ package org.firstinspires.ftc.teamcode.robot.opmode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.robot.subsystem.ExampleSubsystem;
 
 
 /**
@@ -69,8 +64,6 @@ public class TemplateAutonomous extends LinearOpMode {
      * This means that we will say that certain subsystems exist and give them a name,
      * but not yet create them, this will happen in the init() function.
      */
-    private ExampleSubsystem exampleSubsystem;
-
     @Override
     public void runOpMode() {
         /*
@@ -84,7 +77,6 @@ public class TemplateAutonomous extends LinearOpMode {
          * Create all the subsystems
          * Go to the folder 'subsystems' to view the subsystems, which contain more information
          */
-        exampleSubsystem = new ExampleSubsystem(hardwareMap);
 
         // Tell the driver that initialization is complete via the Driver Station
         telemetry.addData("Status", "Initialized");
@@ -95,29 +87,6 @@ public class TemplateAutonomous extends LinearOpMode {
          */
         waitForStart();
         runtime.reset();
-
-        /*
-         * Now it is time for the main autonomous code to run once during the match
-         */
-
-        //Set the motor of the example subsystem to max speed
-        exampleSubsystem.setMotorSpeed(1);
-
-        //Wait for 1 second
-        sleep(1000);
-
-        //Turn the motor off
-        exampleSubsystem.setMotorSpeed(0);
-
-        //Flip down the example subsystem
-        exampleSubsystem.flipDown();
-
-        //Wait for 2 seconds
-        sleep(2000);
-
-        //Flip up the subsystem
-        exampleSubsystem.flipUp();
-
 
     }
 }
