@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.robot.subsystem.ArmTest;
  */
 
 /*
-* After the @TeleOp, the name of the TeleOP is defined which is displayed on the Driver Station
+*  After the @TeleOp, the name of the TeleOP is defined which is displayed on the Driver Station
 * The group can be filled in to group different Opmodes on the phone
 * The // before @Disabled can be removed to hide the Opmode on the Driver Station
  */
