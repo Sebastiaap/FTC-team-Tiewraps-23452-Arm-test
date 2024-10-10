@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.robot.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
 /**
@@ -11,13 +13,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  * Different functions of the drivetrain have been defined, but not yet fully worked out
  */
-public class MecanumDrivetrain {
+public class ArmTest {
 
     //Declare motor and servo objects
-    private DcMotor rightFront;
-    private DcMotor leftFront;
-    private DcMotor rightBack;
-    private DcMotor leftBack;
+    private DcMotorEx upperMotor;
+    private DcMotorEx lowerMotor;
+
+//    public static final double NEW_P = 10;
+//    public static final double NEW_I = 0;
+//    public static final double NEW_D = 0;
+//    public static final double NEW_F = 0;
+
+
 
 
     /**
@@ -30,17 +37,15 @@ public class MecanumDrivetrain {
      *                    to link the motors and servos in the code to the motors and servos
      *                    on the actual robot
      */
-    public MecanumDrivetrain(HardwareMap hardwareMap){
+    public ArmTest(HardwareMap hardwareMap){
         /*
          * These lines of code links the DcMotors to the ports on the control/expansion hub
          * with the corresponding labels (deviceName)
          * This 'labeling' can be done on the Driver Station by clicking on the three dots
          * in the upper right corner and then going to 'Configure Robot'
          */
-        rightFront = hardwareMap.get(DcMotor.class, "motor0");
-        leftFront =  hardwareMap.get(DcMotor.class, "motor1");
-        rightBack =  hardwareMap.get(DcMotor.class, "motor2");
-        leftBack =  hardwareMap.get(DcMotor.class, "motor3");
+        upperMotor = hardwareMap.get(DcMotorEx.class, "motor1");
+        lowerMotor =  hardwareMap.get(DcMotorEx.class, "motor0");
 
         /*
          * Normally a DC motors runs in the clockwise direction for positive values
@@ -49,17 +54,25 @@ public class MecanumDrivetrain {
          * Usually the left side of the drivetrain needs to be reversed,
          * but this should always be checked to be sure
          */
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*
          * Tell the motors to use the integrated encoders
          * This gives a bit more precision while controlling the motors
          */
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lowerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        upperMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lowerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lowerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+//        PIDFCoefficients pidNew = new PIDFCoefficients(NEW_P, NEW_I, NEW_D, NEW_F);
+
+
+//        lowerMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
+//        upperMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, pidNew);
+
     }
 
     /*
@@ -72,23 +85,22 @@ public class MecanumDrivetrain {
 
 
 
-    public void mecanumDrive(double x, double y, double rx){
-        leftFront.setPower((y + x + rx));
-        leftBack.setPower((y - x + rx));
-        rightFront.setPower((y - x - rx));
-        rightBack.setPower((y + x - rx));
+    public void upperArmControl(){
+        upperMotor.setTargetPosition(20);
+        upperMotor.setPower(0.7);
+        upperMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void lowerArmControl(){
+        lowerMotor.setTargetPosition(20);
+        lowerMotor.setPower(0.7);
+        lowerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     /**
      * Stop all motors of the drivetrain
      */
     public void stop(){
-        rightFront.setPower(0);
-        leftFront.setPower(0);
-        rightBack.setPower(0);
-        leftBack.setPower(0);
+        upperMotor.setPower(0);
+        lowerMotor.setPower(0);
+
     }
-    public void setLeftBackSpeed(double speed){leftBack.setPower(speed);}
-    public void setRightBackSpeed(double speed){rightBack.setPower(speed);}
-    public void setLeftFrontSpeed(double speed){leftFront.setPower(speed);}
-    public void setRightFrontSpeed(double speed){rightFront.setPower(speed);}
 }
